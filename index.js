@@ -125,12 +125,121 @@ const table = [
   { symbol: "I", value: 1, reps: 3 }
 ];
 
-// ---
+// I've defined two helpers tok and terr to help me define test cases:
+// - tok is for test cases that succeed, it requires the input value
+// and the two expected results (number and roman)
+// - terr is for test cases that fail, it only requires the input value
 
-var romanNumber1 = new RomanNumber("XX");
-var romanNumber2 = new RomanNumber(40);
+const tok = (value, roman, number) => ({
+  description: `test ${value}`,
+  error: false,
+  value,
+  roman,
+  number
+});
 
-console.log(romanNumber1.toInt()); // => 20
-console.log(romanNumber1.toString()); // => 'XX'
-console.log(romanNumber2.toInt()); // => 40
-console.log(romanNumber2.toString()); // => 'XL'
+const terr = value => ({
+  description: `test ${value}`,
+  error: true,
+  value
+});
+
+const testCases = [
+  // Tests defined by the test
+  terr(null),
+  terr(""),
+  terr(0),
+  tok(1, "I", 1),
+  tok(3, "III", 3),
+  tok(4, "IV", 4),
+  tok(5, "V", 5),
+  tok("I", "I", 1),
+  tok("III", "III", 3),
+  terr("IIII"),
+  tok("IV", "IV", 4),
+  tok("V", "V", 5),
+  tok(1968, "MCMLXVIII", 1968),
+  terr("1473"),
+  tok(2999, "MMCMXCIX", 2999),
+  tok(3000, "MMM", 3000),
+  terr(10000),
+  tok("CDXXIX", "CDXXIX", 429),
+  terr("CD1X"),
+  terr("error"),
+  tok("MCDLXXXII", "MCDLXXXII", 1482),
+  tok("MCMLXXX", "MCMLXXX", 1980),
+  terr("MMMMCMXCIX"),
+  terr("MMMMDMXCIX"),
+  // Tests defined by me
+  tok(17, "XVII", 17),
+  tok(20, "XX", 20),
+  tok(1995, "MCMXCV", 1995),
+  tok(3303, "MMMCCCIII", 3303),
+  tok("XVII", "XVII", 17),
+  tok("XL", "XL", 40),
+  tok("MCMXCV", "MCMXCV", 1995),
+  tok("MMMCCCIII", "MMMCCCIII", 3303)
+];
+
+const testRunner = tests => {
+  const stats = { ok: 0, ko: 0, total: tests.length };
+
+  for (const test of tests) {
+    if (testRun(test)) {
+      stats.ok++;
+    } else {
+      stats.ko++;
+    }
+  }
+
+  if (stats.ok === stats.total) {
+    console.log(`Success! ${stats.ok}/${stats.total} tests passed.`);
+  } else {
+    console.error(`Failure! ${stats.ko}/${stats.total} tests failed.`);
+  }
+};
+
+const testRun = ({ description, error, value, number, roman }) => {
+  let failed = false;
+  let err;
+  let gotNumber, gotRoman;
+
+  try {
+    const r = new RomanNumber(value);
+    gotNumber = r.toInt();
+    gotRoman = r.toString();
+  } catch (ex) {
+    failed = true;
+    err = ex;
+  }
+
+  if (!failed && error) {
+    console.error(
+      `${description} didn't fail but an error ${err} was expected.`
+    );
+    return false;
+  }
+
+  if (failed && !error) {
+    console.error(`${description} failed but an error ${err} wasn't expected.`);
+    return false;
+  }
+
+  if (gotNumber !== number) {
+    console.error(
+      `${description} toInt() got ${gotNumber}, expected ${number}.`
+    );
+    return false;
+  }
+
+  if (gotRoman !== roman) {
+    console.error(
+      `${description} toString() got ${gotRoman}, expected ${roman}.`
+    );
+    return false;
+  }
+
+  return true;
+};
+
+testRunner(testCases);
