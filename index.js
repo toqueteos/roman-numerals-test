@@ -26,6 +26,9 @@ class RomanNumber {
     if (this.input == null) {
       throw new Error("value required");
     }
+    if (this.input.length === 0) {
+      throw new Error("value required");
+    }
 
     if (this.inputType !== TYPE_NUMBER && this.inputType !== TYPE_STRING) {
       throw new Error("invalid value");
