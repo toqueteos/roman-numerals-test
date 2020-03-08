@@ -71,7 +71,7 @@ class RomanNumber {
         if (input >= value) {
           symbols.push(symbol);
           input -= value;
-          continue;
+          break;
         }
       }
     }
