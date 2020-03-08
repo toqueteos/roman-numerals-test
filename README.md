@@ -15,3 +15,9 @@ $ node index.js
 ```
 
 This will run the test runner with all test cases specified in the document.
+
+## Remarks
+
+I did work on the tests for about 1 hour and didn't follow the commit every 10 minutes rule for the last 7 commits.
+
+I had all the work done but didn't want to commit all of that in a single commit.
