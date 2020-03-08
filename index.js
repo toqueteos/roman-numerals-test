@@ -1,5 +1,5 @@
-const TYPE_STRING = "string";
-const TYPE_NUMBER = "number";
+const TYPE_STRING = 'string';
+const TYPE_NUMBER = 'number';
 
 // RomanNumber implements a two-way number converter from/to integers to roman numerals.
 // I've used underscore prefixed method names for private methods.
@@ -10,7 +10,7 @@ class RomanNumber {
     this.input = input;
     this.inputType = typeof input;
     this.number = -1;
-    this.roman = "invalid";
+    this.roman = 'invalid';
 
     this._validate();
     this._parse();
@@ -24,20 +24,20 @@ class RomanNumber {
   // inputType are filled correctly which are necessary for the _parse method.
   _validate() {
     if (this.input == null) {
-      throw new Error("value required");
+      throw new Error('value required');
     }
     if (this.input.length === 0) {
-      throw new Error("value required");
+      throw new Error('value required');
     }
 
     if (this.inputType !== TYPE_NUMBER && this.inputType !== TYPE_STRING) {
-      throw new Error("invalid value");
+      throw new Error('invalid value');
     }
 
     if (this.inputType === TYPE_NUMBER) {
       const inputNotInRange = this.input < 1 || this.input > 3999;
       if (inputNotInRange) {
-        throw new Error("invalid range");
+        throw new Error('invalid range');
       }
     }
 
@@ -46,7 +46,7 @@ class RomanNumber {
         ch => !allowedCharacters.includes(ch)
       );
       if (hasInvalidCharacters) {
-        throw new Error("invalid value");
+        throw new Error('invalid value');
       }
     }
   }
@@ -80,7 +80,7 @@ class RomanNumber {
       }
     }
 
-    return symbols.join("");
+    return symbols.join('');
   }
 
   // parseNumber takes a string (a roman numeral) and attempts to get its
@@ -103,7 +103,7 @@ class RomanNumber {
     }
 
     if (input.length !== 0) {
-      throw new Error("invalid value");
+      throw new Error('invalid value');
     }
 
     return number;
@@ -111,22 +111,22 @@ class RomanNumber {
 }
 
 // allowedCharacters is the list of allowed characters a roman numeral can have
-const allowedCharacters = ["M", "D", "C", "L", "X", "V", "I"];
+const allowedCharacters = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
 
 const table = [
-  { symbol: "M", value: 1000, reps: 3 },
-  { symbol: "CM", value: 900, reps: 1 },
-  { symbol: "D", value: 500, reps: 1 },
-  { symbol: "CD", value: 400, reps: 1 },
-  { symbol: "C", value: 100, reps: 3 },
-  { symbol: "XC", value: 90, reps: 1 },
-  { symbol: "L", value: 50, reps: 1 },
-  { symbol: "XL", value: 40, reps: 1 },
-  { symbol: "X", value: 10, reps: 3 },
-  { symbol: "IX", value: 9, reps: 1 },
-  { symbol: "V", value: 5, reps: 1 },
-  { symbol: "IV", value: 4, reps: 1 },
-  { symbol: "I", value: 1, reps: 3 }
+  { symbol: 'M', value: 1000, reps: 3 },
+  { symbol: 'CM', value: 900, reps: 1 },
+  { symbol: 'D', value: 500, reps: 1 },
+  { symbol: 'CD', value: 400, reps: 1 },
+  { symbol: 'C', value: 100, reps: 3 },
+  { symbol: 'XC', value: 90, reps: 1 },
+  { symbol: 'L', value: 50, reps: 1 },
+  { symbol: 'XL', value: 40, reps: 1 },
+  { symbol: 'X', value: 10, reps: 3 },
+  { symbol: 'IX', value: 9, reps: 1 },
+  { symbol: 'V', value: 5, reps: 1 },
+  { symbol: 'IV', value: 4, reps: 1 },
+  { symbol: 'I', value: 1, reps: 3 },
 ];
 
 // I've defined two helpers tok and terr to help me define test cases:
@@ -139,50 +139,50 @@ const tok = (value, roman, number) => ({
   error: false,
   value,
   roman,
-  number
+  number,
 });
 
 const terr = value => ({
   description: `test ${value}`,
   error: true,
-  value
+  value,
 });
 
 const testCases = [
   // Tests defined by the test
   terr(null),
-  terr(""),
+  terr(''),
   terr(0),
-  tok(1, "I", 1),
-  tok(3, "III", 3),
-  tok(4, "IV", 4),
-  tok(5, "V", 5),
-  tok("I", "I", 1),
-  tok("III", "III", 3),
-  terr("IIII"),
-  tok("IV", "IV", 4),
-  tok("V", "V", 5),
-  tok(1968, "MCMLXVIII", 1968),
-  terr("1473"),
-  tok(2999, "MMCMXCIX", 2999),
-  tok(3000, "MMM", 3000),
+  tok(1, 'I', 1),
+  tok(3, 'III', 3),
+  tok(4, 'IV', 4),
+  tok(5, 'V', 5),
+  tok('I', 'I', 1),
+  tok('III', 'III', 3),
+  terr('IIII'),
+  tok('IV', 'IV', 4),
+  tok('V', 'V', 5),
+  tok(1968, 'MCMLXVIII', 1968),
+  terr('1473'),
+  tok(2999, 'MMCMXCIX', 2999),
+  tok(3000, 'MMM', 3000),
   terr(10000),
-  tok("CDXXIX", "CDXXIX", 429),
-  terr("CD1X"),
-  terr("error"),
-  tok("MCDLXXXII", "MCDLXXXII", 1482),
-  tok("MCMLXXX", "MCMLXXX", 1980),
-  terr("MMMMCMXCIX"),
-  terr("MMMMDMXCIX"),
+  tok('CDXXIX', 'CDXXIX', 429),
+  terr('CD1X'),
+  terr('error'),
+  tok('MCDLXXXII', 'MCDLXXXII', 1482),
+  tok('MCMLXXX', 'MCMLXXX', 1980),
+  terr('MMMMCMXCIX'),
+  terr('MMMMDMXCIX'),
   // Tests defined by me
-  tok(17, "XVII", 17),
-  tok(20, "XX", 20),
-  tok(1995, "MCMXCV", 1995),
-  tok(3303, "MMMCCCIII", 3303),
-  tok("XVII", "XVII", 17),
-  tok("XL", "XL", 40),
-  tok("MCMXCV", "MCMXCV", 1995),
-  tok("MMMCCCIII", "MMMCCCIII", 3303)
+  tok(17, 'XVII', 17),
+  tok(20, 'XX', 20),
+  tok(1995, 'MCMXCV', 1995),
+  tok(3303, 'MMMCCCIII', 3303),
+  tok('XVII', 'XVII', 17),
+  tok('XL', 'XL', 40),
+  tok('MCMXCV', 'MCMXCV', 1995),
+  tok('MMMCCCIII', 'MMMCCCIII', 3303),
 ];
 
 const testRunner = tests => {

@@ -6,6 +6,7 @@
 ## Requirements
 
 - Node 12.16.1 (latest LTS Version)
+- Prettier (optional)
 
 ## How to run this
 
