@@ -9,6 +9,8 @@ class RomanNumber {
   constructor(input) {
     this.input = input;
     this.inputType = typeof input;
+    this.number = -1;
+    this.roman = "invalid";
 
     this._validate();
     this._parse();
@@ -53,7 +55,6 @@ class RomanNumber {
       this.inputType === TYPE_STRING
         ? this.input
         : this._parseRoman(this.input);
-
     this.number =
       this.inputType === TYPE_NUMBER
         ? this.input
