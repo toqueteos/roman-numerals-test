@@ -1,6 +1,10 @@
 const TYPE_STRING = "string";
 const TYPE_NUMBER = "number";
 
+// RomanNumber implements a two-way number converter from/to integers to roman numerals.
+// I've used underscore prefixed method names for private methods.
+// I know the hashtag syntax exists but seing it's still at Stage 3 I haven't
+// used it.
 class RomanNumber {
   constructor(input) {
     this.input = input;
@@ -13,6 +17,9 @@ class RomanNumber {
   toInt = () => this.number;
   toString = () => this.roman;
 
+  // _validate is the first private method to be called when the RomanNumber
+  // constructor is called, it performs all validations and ensures input and
+  // inputType are filled correctly which are necessary for the _parse method.
   _validate() {
     if (this.input == null) {
       throw new Error("value required");
@@ -39,6 +46,8 @@ class RomanNumber {
     }
   }
 
+  // _parse assigns the final value of roman and number properties
+  // Only one conversion will ever be needed no matter the input.
   _parse() {
     this.roman =
       this.inputType === TYPE_STRING
@@ -51,6 +60,10 @@ class RomanNumber {
         : this._parseNumber(this.input);
   }
 
+  // _parseRoman takes a number and attempts to get its roman numeral
+  // representation by traversing a table that goes from the biggest possible
+  // value to the lowest one.
+  // No repetition checks are needed because of the table's order.
   _parseRoman(input) {
     const symbols = [];
     while (input > 0) {
@@ -66,6 +79,14 @@ class RomanNumber {
     return symbols.join("");
   }
 
+  // parseNumber takes a string (a roman numeral) and attempts to get its
+  // decimal representation by traversing a table that goes from the biggest
+  // possible value to the lowest one.
+  // To avoid issues with two letter numbers we check symbols against the "head"
+  // of the string and remove letters from the start of the input until none
+  // are left or we are done traversing our symbol table.
+  // If inputs are malformed we might have symbols left in the input string
+  // in this casae we error out.
   _parseNumber(input) {
     let number = 0;
     for (const { symbol, value, reps } of table) {
@@ -85,6 +106,7 @@ class RomanNumber {
   }
 }
 
+// allowedCharacters is the list of allowed characters a roman numeral can have
 const allowedCharacters = ["M", "D", "C", "L", "X", "V", "I"];
 
 const table = [
